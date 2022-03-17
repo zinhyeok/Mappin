@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+  <title>My First Map</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script type="text/javascript"
+    src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=ildjthl7y4"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=929290d3b6c3094beb2f3ed459ffe6f8&libraries=services"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script type="text/javascript"
+    src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a9e9c3af653aadb06c71ce48764a0845&libraries=services"></script> -->
+</head>
+
+<body>
+  <div id="navbar">
+    <a href="/">firstmap</a>
+    <a class="active" href="/upload">upload</a>
+  </div>
+  <div id="infoBox">
+    <div id="infoTitle">현재 날짜</div>
+    <div id="infoContent">2022.01.26</div>
+  </div>
+  <div id="search">
+    <input id="search_input" placeholder="목적지를 입력해주세요" />
+    <button id="search_button">검색</button>
+  </div>
+  <div id="current">현재 위치</div>
+  <div id="map" style="width:100%;height:100vh;"></div>
+  <script type="text/javascript" src="/data/data.js"></script>
+  <script type="text/javascript" src="/javascripts/MarkerClustering.js"></script>
+  <script type="text/javascript" src="/javascripts/main.js"></script>
+  <script type="text/javascript" src="/javascripts/upload.js"></script>
+  <!-- main.js에서 마커 클러스터링을 사용하기 때문에 미리 불러와줘야함. -->
+</body>
+
+</html>
