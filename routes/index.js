@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const locationModel = require('../model/location');
+const userModel = require('../model/user');
 
 /* GET home page. */
 router.get('/', (req, res, next)=>{
@@ -59,6 +60,13 @@ router.get('/location', (req, res, next) => {
       message: "error",
     });
   });  
+})
+
+router.get('/login', (req, res, next) => {
+  res.render('user/login');
+})
+router.get('/signup', (req, res, next) => {
+  res.render('user/signup');
 })
 
 module.exports = router;
