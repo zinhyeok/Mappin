@@ -63,10 +63,36 @@ router.get('/location', (req, res, next) => {
 })
 
 router.get('/login', (req, res, next) => {
-  res.render('user/login');
+  res.render('login');
+})
+router.post('login', (req, res, next) => {
+  
 })
 router.get('/signup', (req, res, next) => {
-  res.render('user/signup');
+  res.render('signup');
 })
+router.post('/signup', (req, res, next) => {
+  const { username, accountName, password, userEmail } = req.body;
+  let user = new userModel();
+  user.username = username;
+  user.accountname = accountName;
+  user.password = password;
+  user.email = userEmail;
+
+  console.log("data:", username,accountName, userEmail, password);
+  user.save()
+    .then((result) => {
+      console.log(result);
+      res.json({
+        message: "success",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+      res.json({
+        message: "error",
+      });
+    });
+});
 
 module.exports = router;
