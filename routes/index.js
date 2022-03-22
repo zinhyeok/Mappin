@@ -79,20 +79,30 @@ router.post('/signup', (req, res, next) => {
   user.password = password;
   user.email = userEmail;
 
-  console.log("data:", username,accountName, userEmail, password);
-  user.save()
-    .then((result) => {
-      console.log(result);
+  userModel.find({'accountname':accountName}).then((result) => {
+    if (result.length == 0) { 
+      user.save()
+        .then((result) => {
+          console.log(result);
+          res.json({
+            message: "success",
+          });
+          
+        })
+        .catch((error) => {
+          console.log(error);
+          res.json({
+            message: "error",
+          });
+        });
+    } else {
       res.json({
-        message: "success",
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-      res.json({
-        message: "error",
-      });
-    });
+            message: "account error",
+          });
+    }
+    // console.log("data:", username,accountName, userEmail, password);
+  });
+
 });
 
 module.exports = router;

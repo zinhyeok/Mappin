@@ -11,14 +11,20 @@ function submitSignup() {
     
     $.ajax({
         url: "/signup",
-        data: { username, accountName, password,userEmail },
+        data: { username, accountName, password, userEmail },
         type: "POST",
     }).done((response) => {
-        console.log("데이터 요청 성공");
-        alert("성공");
+        console.log(response);
+        if (response.message == "account error") {
+            alert("이미 사용중인 계정명입니다.");
+            accountName = "";
+        }
+        else {
+            location.href = "/login";
+        }
+        
     })
-        .fail((error) => {
-            console.log("데이터 요청 실패");
-            alert("실패");
-        });
+    .fail((error) => {
+        alert(error);
+    });
 }
