@@ -76,9 +76,14 @@ router.post('/login', (req, res, next) => {
       });
     }else {
       if (password == result[0].password) {
-        res.json({
-        "result":"loginsuccess"
-      })
+        req.session.user = { 
+        user_email: email
+        }
+        req.session.save(function () { 
+          res.json({
+          "result":"loginsuccess"
+        })
+        })
       } else {
         res.json({
         "result":"passwordfalse"
@@ -86,6 +91,9 @@ router.post('/login', (req, res, next) => {
       }
     }
   })
+})
+router.get('/logout', (req, res, next) => {
+  res.render('signup');
 })
 router.get('/signup', (req, res, next) => {
   res.render('signup');
