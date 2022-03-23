@@ -3,6 +3,7 @@ var router = express.Router();
 const locationModel = require('../model/location');
 const userModel = require('../model/user');
 
+
 /* GET home page. */
 router.get('/', (req, res, next)=>{
   res.render('index', { title: 'Express' });
@@ -65,8 +66,26 @@ router.get('/location', (req, res, next) => {
 router.get('/login', (req, res, next) => {
   res.render('login');
 })
-router.post('login', (req, res, next) => {
-  
+router.post('/login', (req, res, next) => {
+  const { email, password } = req.body;
+  console.log(email);
+  userModel.find({ 'email': email }).then((result) => {
+    if (result.length == 0) {
+      res.json({
+        "result": "emailfalse"
+      });
+    }else {
+      if (password == result[0].password) {
+        res.json({
+        "result":"loginsuccess"
+      })
+      } else {
+        res.json({
+        "result":"passwordfalse"
+      })
+      }
+    }
+  })
 })
 router.get('/signup', (req, res, next) => {
   res.render('signup');

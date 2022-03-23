@@ -1,7 +1,6 @@
-// const signupButton = document.querySelector("#signupButton");
-
-// signupButton.addEventListener("click", submitSignup);
 function submitSignup() {
+    event.preventDefault();
+    
     let username = document.querySelector("#userName").value;
     let accountName = document.querySelector("#accountName").value;
     let userEmail = document.querySelector("#userEmail").value;
