@@ -64,6 +64,9 @@ router.get('/location', (req, res, next) => {
 })
 
 router.get('/login', (req, res, next) => {
+  if (req.session.user) {
+    console.log("로그인됨");
+  }
   res.render('login');
 })
 router.post('/login', (req, res, next) => {
@@ -92,8 +95,22 @@ router.post('/login', (req, res, next) => {
     }
   })
 })
-router.get('/logout', (req, res, next) => {
-  res.render('signup');
+router.get('/logout',async function (req, res, next) {
+  let session = req.session;
+  try {
+    if (session.user) {
+      await req.session.destroy(function (err) {
+        if (err)
+          console.log(err)
+        else {
+          res.redirect('/');
+        }
+      })
+    }
+  }
+  catch (e) {
+    console.log(e)
+  }
 })
 router.get('/signup', (req, res, next) => {
   res.render('signup');
