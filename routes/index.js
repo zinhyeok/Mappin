@@ -1,12 +1,14 @@
 var express = require('express');
+var url = require('url');
 var router = express.Router();
 const locationModel = require('../model/location');
 const userModel = require('../model/user');
 
 
 /* GET home page. */
-router.get('/', (req, res, next)=>{
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res, next) => {
+  var queryData = url.parse(req.url, true).query;
+  res.render('index', { title: queryData.id });
 });
 //화살표 함수
 router.get('/upload', (req, res, next) => {

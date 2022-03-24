@@ -21,7 +21,7 @@ function submitLogin(event) {
             alert("잘못된 비밀번호입니다.");
         }
         else if (response.result == "loginsuccess") {
-            location.href = "/";
+            location.href = `/?id=${email}`;
         }
         else {
         }
