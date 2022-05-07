@@ -22,7 +22,7 @@ $.ajax({
           map:map,
           position: latlng,
           icon:{
-            content: "<div class='marker'></div>",
+            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
             anchor: new naver.maps.Point(12,12) //marker의 중심
           },
         });
@@ -97,8 +97,8 @@ $.ajax({
   
       let currentUse=true;
   
-      $('#current').click(()=>{
-        if('geolocation' in navigator){
+  $('#current').click(() => {
+    if('geolocation' in navigator){
           navigator.geolocation.getCurrentPosition(function(position){
             //위도, 경도 등이 담긴 Position 정보 활용
             const lat=position.coords.latitude;
