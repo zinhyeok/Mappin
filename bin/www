@@ -9,6 +9,7 @@ var debug = require('debug')('myfirstmap:server');
 var http = require('http');
 const mongoose = require('mongoose');
 const userConfig = require('../config/userConfig.json');
+const url = userConfig.url;
 
 let db = mongoose.connection;
 db.on("error", console.error);
@@ -16,7 +17,7 @@ db.once("open", () => {
   console.log("Connected to mongo Server");
 });
 mongoose.connect(
-  `mongodb+srv://yoonk0212:${userConfig.PW}@firstmap.25jvu.mongodb.net/firstmap?retryWrites=true&w=majority`,
+  url,
   {
     useNewUrlParser:true,
     useUnifiedTopology: true
