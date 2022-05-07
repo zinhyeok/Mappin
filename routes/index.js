@@ -8,7 +8,7 @@ const userModel = require('../model/user');
 /* GET home page. */
 router.get('/', (req, res, next) => {
   var queryData = url.parse(req.url, true).query;
-  res.render('index', { title: queryData.id });
+  res.render('index', { title: queryData.id, session:req.session.user });
 });
 //화살표 함수
 router.get('/upload', (req, res, next) => {
@@ -28,6 +28,10 @@ router.post('/test2', (req, res, next) => {
     message: "post 완료!",
   });
 });
+
+router.get('/find', (req, res, next) => {
+  res.render('find');
+})
 
 router.post('/location', (req, res, next) => {
   const { title, address, lat, lng } = req.body;
@@ -150,5 +154,21 @@ router.post('/signup', (req, res, next) => {
   });
 
 });
+
+router.get('/mypage', (req, res, next) => { 
+  if (req.session.user) {
+    userModel.find({ 'email': req.session.user['user_email'] })
+      .then((result) => {
+        res.render('mypage', {
+          username: result[0].username,
+          accountname: result[0].accountname,
+          email:result[0].email,
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+})
 
 module.exports = router;

@@ -23,8 +23,11 @@
   <div id="navbar">
     <a href="/"><%= title %></a>
     <a class="active" href="/upload">upload</a>
-    <a class="active" href="/login">login</a>
-    <a class="active" href="/logout">logout</a>
+    <% if(session) { %>
+      <a class="active" href="/logout">logout</a>
+    <% }else{ %>
+      <a class="active" href="/login">login</a>
+    <% } %>
   </div>
   <div id="infoBox">
     <div id="infoTitle">현재 날짜</div>
