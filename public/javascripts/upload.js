@@ -109,10 +109,10 @@ function removeMarker() {
     markerList = [];
 }
 
-function onSubmit(title, address, lat, lng) { 
+function onSubmit(title, address, lat, lng, username, text) { 
     $.ajax({
         url: "/location",
-        data: { title, address, lat, lng },
+        data: { title, address, lat, lng, username, text },
         type: "POST",
     }).done((response) => {
         console.log("데이터 요청 성공");
