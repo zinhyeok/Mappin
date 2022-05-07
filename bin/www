@@ -16,7 +16,7 @@ db.once("open", () => {
   console.log("Connected to mongo Server");
 });
 mongoose.connect(
-  `mongodb+srv://sungeuni0208:${userConfig.PW}@firstmap.awa1q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  `mongodb+srv://yoonk0212:${userConfig.PW}@firstmap.25jvu.mongodb.net/firstmap?retryWrites=true&w=majority`,
   {
     useNewUrlParser:true,
     useUnifiedTopology: true

@@ -30,8 +30,9 @@ $.ajax({
         
         let content=`<div class='infowindow_wrap'>
           <div class='infowindow_title'>${target.title}</div>
-          <div class='infowindow_content'>${target.content}</div>
-          <div class='infowindow_date'>${target.date}</div>
+          <div class='infowindow_content'>${target.address}</div>
+          <div class='infowindow_date'>${target.username}</div>
+          <div class='infowindow_date'>${target.text}</div>
         </div>`;
   
         let infowindow = new naver.maps.InfoWindow({
