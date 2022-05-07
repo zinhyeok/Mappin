@@ -10,13 +10,15 @@ var http = require('http');
 const mongoose = require('mongoose');
 const userConfig = require('../config/userConfig.json');
 
+const url = userConfig.url;
+
 let db = mongoose.connection;
 db.on("error", console.error);
 db.once("open", () => {
   console.log("Connected to mongo Server");
 });
 mongoose.connect(
-  `mongodb+srv://sungeuni0208:${userConfig.PW}@firstmap.awa1q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+  url,
   {
     useNewUrlParser:true,
     useUnifiedTopology: true
