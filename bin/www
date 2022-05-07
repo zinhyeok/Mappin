@@ -11,6 +11,8 @@ const mongoose = require('mongoose');
 const userConfig = require('../config/userConfig.json');
 const url = userConfig.url;
 
+const url = userConfig.url;
+
 let db = mongoose.connection;
 db.on("error", console.error);
 db.once("open", () => {

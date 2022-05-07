@@ -1,5 +1,5 @@
 let mapOptions = {
-      center: new naver.maps.LatLng(37.3595704, 127.105399),
+      center: new naver.maps.LatLng(37.5666805, 126.9784147),
       zoom: 10
     };
 
@@ -22,7 +22,7 @@ $.ajax({
           map:map,
           position: latlng,
           icon:{
-            content: "<div class='marker'></div>",
+            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
             anchor: new naver.maps.Point(12,12) //marker의 중심
           },
         });
@@ -30,8 +30,9 @@ $.ajax({
         
         let content=`<div class='infowindow_wrap'>
           <div class='infowindow_title'>${target.title}</div>
-          <div class='infowindow_content'>${target.content}</div>
-          <div class='infowindow_date'>${target.date}</div>
+          <div class='infowindow_content'>${target.address}</div>
+          <div class='infowindow_date'>${target.username}</div>
+          <div class='infowindow_date'>${target.text}</div>
         </div>`;
   
         let infowindow = new naver.maps.InfoWindow({
@@ -97,8 +98,8 @@ $.ajax({
   
       let currentUse=true;
   
-      $('#current').click(()=>{
-        if('geolocation' in navigator){
+  $('#current').click(() => {
+    if('geolocation' in navigator){
           navigator.geolocation.getCurrentPosition(function(position){
             //위도, 경도 등이 담긴 Position 정보 활용
             const lat=position.coords.latitude;
