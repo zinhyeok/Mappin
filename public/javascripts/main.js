@@ -10,46 +10,6 @@ $.ajax({
   type: "GET",
 }).done((response) => {
   if (response.message !== "success") return;
-  const data = response.data;
-      let markerList=[];  //마커들을 담는 공간
-      let infowindowList=[];
-  
-      for(let i in data){
-        let target=data[i];
-        let latlng=new naver.maps.LatLng(target.lat,target.lng);
-        
-        marker=new naver.maps.Marker({
-          map:map,
-          position: latlng,
-          icon:{
-            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
-            anchor: new naver.maps.Point(12,12) //marker의 중심
-          },
-        });
-        //map이라는 변수위에 마커가 표시, position은 마커가 표시될 위치,icon은 마커로 표시될 div
-        
-        let content=`<div class='infowindow_wrap'>
-          <div class='infowindow_title'>${target.title}</div>
-          <div class='infowindow_content'>${target.address}</div>
-          <div class='infowindow_date'>${target.username}</div>
-          <div class='infowindow_date'>${target.text}</div>
-        </div>`;
-  
-        let infowindow = new naver.maps.InfoWindow({
-          content:content,
-          backgroundColor:"#00ff0000",  //투명한 색
-          borderColor: "#00ff0000",
-          anchorSize: new naver.maps.Size(0,0)
-        });
-  
-        markerList.push(marker);
-        infowindowList.push(infowindow);
-      }
-  
-      for (let i =0, ii=markerList.length;i<ii;i++){
-        naver.maps.Event.addListener(markerList[i],"click",getClickHandler(i)); //marker클릭했을때 이벤트
-        naver.maps.Event.addListener(map,"click",clickMap(i)); //marker클릭했을때 이벤트
-      }
   //10개 이하일때는 클러스터 1 실행되도록
   const cluster1 = {
       content: `<div class="cluster1"></div>`,
@@ -75,26 +35,7 @@ $.ajax({
       }
       //클러스터 안에 몇개의 마커가 들어있는지 표시해줌.
   })
-  
-      function getClickHandler(i){
-        return function(){
-          let marker=markerList[i];
-          let infowindow=infowindowList[i];
-          if(infowindow.getMap()) { 
-            //infowindow가 표시되어있는지 확인
-            infowindow.close();
-          }else{
-            infowindow.open(map,marker);  //marker위에 infowindow가 열림
-          }
-        }
-      }
-  
-      function clickMap(i){
-        return function(){
-          let infowindow=infowindowList[i];
-          infowindow.close();
-        }
-      }
+   
   
       let currentUse=true;
   
@@ -170,3 +111,81 @@ $.ajax({
         }
       }
 });
+
+
+$.ajax({
+  url: "/location",
+  type: "GET",
+}).done((response) => {
+  if (response.message !== "success") return;
+  const data = response.data;
+      let markerList=[];  //마커들을 담는 공간
+      let infoWindowList=[]; //인포윈도우를 담는 공간
+      let isOpenList=[]; // 인포윈도우 열렸는지 확인, boolean으로. 열려있으면 true
+  
+      for(let i in data){
+        let target=data[i];
+        let latlng=new naver.maps.LatLng(target.lat,target.lng);
+        
+        marker=new naver.maps.Marker({
+          map:map,
+          position: latlng,
+          icon:{
+            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
+            anchor: new naver.maps.Point(12,12) //marker의 중심
+          },
+        });
+        //map이라는 변수위에 마커가 표시, position은 마커가 표시될 위치,icon은 마커로 표시될 div
+        
+        let content=`<div class='infowindow_wrap' style='position:fixed; left:0px; bottom:0px;'>
+          <div class='infowindow_image'>
+            <img src="https://placekitten.com/170/170" alt="맛집이미지">
+          </div>
+          <div class='infowindow_content'>
+            <div class='infowindow_username'>${target.username}</div>
+            <div class='infowindow_text'>${target.text}</div>
+          </div>
+        </div>`
+  
+        let infowindow = {
+          content: content,
+        };
+  
+        markerList.push(marker);
+        infoWindowList.push(infowindow);
+        isOpenList.push('false');
+      }
+  
+      for (let i =0, ii=markerList.length;i<ii;i++){
+        naver.maps.Event.addListener(markerList[i],"click",getClickHandler(i)); //marker클릭했을때 이벤트
+        naver.maps.Event.addListener(map,"click",clickMap(i)); //marker클릭했을때 이벤트
+      };
+  
+    const infoWindowContainer = document.querySelector('#infowindow-container')
+
+    function getClickHandler(i){
+      return function(){
+        let marker=markerList[i];
+        let infowindow=infoWindowList[i];
+        if(isOpenList[i] === true) { 
+          //infowindow가 표시되어있는지 확인
+          infoWindowContainer.innerHTML = '';
+          isOpenList[i] = false;
+        }else{
+          infoWindowContainer.innerHTML = infowindow.content;
+          for (let i=0, ii=isOpenList.length; i<ii; i++){
+            isOpenList[i] = false;
+          }
+          isOpenList[i] = true;
+        }
+      }
+    }
+
+    function clickMap(i){
+      return function(){
+        infoWindowContainer.innerHTML = '';
+        isOpenList[i] = false;
+      }
+    }
+
+  });

@@ -80,23 +80,7 @@ body {
         margin-bottom: -10px;
 }
 
-.infowindow_wrap {
-  background: white;
-  padding: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-}
-.infowindow_title {
-  font-size: 15px;
-  font-weight: bolder;
-}
-.infowindow_content {
-  font-size: 13px;
-  font-weight: normal;
-}
-.infowindow_date {
-  font-size: 13px;
-  font-weight: normal;
-}
+
 #current {
   position: absolute;
   top: 200px;
@@ -185,4 +169,48 @@ body {
   text-align: center;
   font-weight: bold;
   background-color: rgba(255, 149, 79, 0.7);
+}
+
+/* 인포윈도우 */
+
+.infowindow_wrap {
+  background: white;
+  padding: 0;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  height: 170px;
+  width: 100vw;
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
+}
+.infowindow_username {
+  font-size: 16px;
+  font-weight: bolder;
+}
+.infowindow_content {
+  font-size: 16px;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+}
+
+.infowindow_text {
+  font-size: 16px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* 라인수 */
+  -webkit-box-orient: vertical;
+  line-height: 130%;
+  height: 100%;
+}
+.infowindow_date {
+  font-size: 13px;
+  font-weight: normal;
 }
