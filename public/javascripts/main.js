@@ -79,19 +79,28 @@ $.ajax({
       function getClickHandler(i){
         return function(){
           let marker=markerList[i];
-          let infowindow=infowindowList[i];
+          let infowindow = infowindowList[i];
           if(infowindow.getMap()) { 
             //infowindow가 표시되어있는지 확인
             infowindow.close();
+            var icon = {
+              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+            } 
+            marker.setIcon(icon);
           }else{
-            infowindow.open(map,marker);  //marker위에 infowindow가 열림
+            infowindow.open(map, marker);  //marker위에 infowindow가 열림
+            let target=data[i]
+            var icon = {
+              content: `<div class='marker-info-wrapper'><div class='marker'></div><div style='padding-left: 10px; width:max-content;'>${target.title}</div></div>`
+            } 
+            marker.setIcon(icon);
           }
         }
       }
   
       function clickMap(i){
         return function(){
-          let infowindow=infowindowList[i];
+          let infowindow = infowindowList[i];
           infowindow.close();
         }
       }
