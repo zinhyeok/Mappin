@@ -15,6 +15,7 @@ $.ajax({
       let markerList=[];  //마커들을 담는 공간
       let infoWindowList=[]; //인포윈도우를 담는 공간
       let isOpenList=[]; // 인포윈도우 열렸는지 확인, boolean으로. 열려있으면 true
+      let markerNumber=-1;
   
       for(let i in data){
         let target=data[i];
@@ -156,7 +157,15 @@ $.ajax({
       }
 
     function getClickHandler(i){
-      return function(){
+      return function () {
+        markerNumber=isOpenList.indexOf(true)
+        if (markerNumber != -1) {
+          let openedMarker = markerList[markerNumber]
+          var icon = {
+              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+            } 
+            openedMarker.setIcon(icon);
+        }
         let marker=markerList[i];
         let infowindow=infoWindowList[i];
         if(isOpenList[i] === true) { 
@@ -165,7 +174,8 @@ $.ajax({
           isOpenList[i] = false;
           var icon = {
               content: "<div class='marker-wrapper'><div class='marker'></div></div>"
-            } 
+          } 
+
             marker.setIcon(icon);
         }else{
           infoWindowContainer.innerHTML = infowindow.content;
