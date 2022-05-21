@@ -200,12 +200,21 @@ $.ajax({
           //infowindow가 표시되어있는지 확인
           infoWindowContainer.innerHTML = '';
           isOpenList[i] = false;
+          var icon = {
+              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+            } 
+            marker.setIcon(icon);
         }else{
           infoWindowContainer.innerHTML = infowindow.content;
           for (let i=0, ii=isOpenList.length; i<ii; i++){
             isOpenList[i] = false;
           }
           isOpenList[i] = true;
+           let target=data[i]
+            var icon = {
+              content: `<div class='marker-info-wrapper'><div class='marker'></div><div style='padding-left: 10px; width:max-content;'>${target.title}</div></div>`
+            } 
+            marker.setIcon(icon);
         }
       }
     }
