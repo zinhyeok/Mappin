@@ -10,6 +10,52 @@ $.ajax({
   type: "GET",
 }).done((response) => {
   if (response.message !== "success") return;
+
+    const data = response.data;
+      let markerList=[];  //마커들을 담는 공간
+      let infoWindowList=[]; //인포윈도우를 담는 공간
+      let isOpenList=[]; // 인포윈도우 열렸는지 확인, boolean으로. 열려있으면 true
+  
+      for(let i in data){
+        let target=data[i];
+        let latlng=new naver.maps.LatLng(target.lat,target.lng);
+        
+        marker=new naver.maps.Marker({
+          map:map,
+          position: latlng,
+          icon:{
+            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
+            anchor: new naver.maps.Point(12,12) //marker의 중심
+          },
+        });
+        //map이라는 변수위에 마커가 표시, position은 마커가 표시될 위치,icon은 마커로 표시될 div
+        
+        let content=`<div class='infowindow_wrap' style='position:fixed; left:0px; bottom:0px;'>
+          <div class='infowindow_image'>
+            <img src="https://placekitten.com/170/170" alt="맛집이미지">
+          </div>
+          <div class='infowindow_content'>
+            <div class='infowindow_username'>${target.username}</div>
+            <div class='infowindow_text'>${target.text}</div>
+          </div>
+        </div>`
+  
+        let infowindow = {
+          content: content,
+        };
+  
+        markerList.push(marker);
+        infoWindowList.push(infowindow);
+        isOpenList.push('false');
+      }
+  
+      for (let i =0, ii=markerList.length;i<ii;i++){
+        naver.maps.Event.addListener(markerList[i],"click",getClickHandler(i)); //marker클릭했을때 이벤트
+        naver.maps.Event.addListener(map,"click",clickMap(i)); //marker클릭했을때 이벤트
+      };
+  
+    const infoWindowContainer = document.querySelector('#infowindow-container')
+
   //10개 이하일때는 클러스터 1 실행되도록
   const cluster1 = {
       content: `<div class="cluster1"></div>`,
@@ -36,37 +82,6 @@ $.ajax({
       //클러스터 안에 몇개의 마커가 들어있는지 표시해줌.
   })
    
-  
-      function getClickHandler(i){
-        return function(){
-          let marker=markerList[i];
-          let infowindow = infowindowList[i];
-          if(infowindow.getMap()) { 
-            //infowindow가 표시되어있는지 확인
-            infowindow.close();
-            var icon = {
-              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
-            } 
-            marker.setIcon(icon);
-          }else{
-            infowindow.open(map, marker);  //marker위에 infowindow가 열림
-            let target=data[i]
-            var icon = {
-              content: `<div class='marker-info-wrapper'><div class='marker'></div><div style='padding-left: 10px; width:max-content;'>${target.title}</div></div>`
-            } 
-            marker.setIcon(icon);
-          }
-        }
-      }
-  
-      function clickMap(i){
-        return function(){
-          let infowindow = infowindowList[i];
-          infowindow.close();
-        }
-      }
-  
-      let currentUse=true;
   
   $('#current').click(() => {
     if('geolocation' in navigator){
@@ -139,58 +154,6 @@ $.ajax({
           alert("검색결과가 없습니다.");
         }
       }
-});
-
-
-$.ajax({
-  url: "/location",
-  type: "GET",
-}).done((response) => {
-  if (response.message !== "success") return;
-  const data = response.data;
-      let markerList=[];  //마커들을 담는 공간
-      let infoWindowList=[]; //인포윈도우를 담는 공간
-      let isOpenList=[]; // 인포윈도우 열렸는지 확인, boolean으로. 열려있으면 true
-  
-      for(let i in data){
-        let target=data[i];
-        let latlng=new naver.maps.LatLng(target.lat,target.lng);
-        
-        marker=new naver.maps.Marker({
-          map:map,
-          position: latlng,
-          icon:{
-            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
-            anchor: new naver.maps.Point(12,12) //marker의 중심
-          },
-        });
-        //map이라는 변수위에 마커가 표시, position은 마커가 표시될 위치,icon은 마커로 표시될 div
-        
-        let content=`<div class='infowindow_wrap' style='position:fixed; left:0px; bottom:0px;'>
-          <div class='infowindow_image'>
-            <img src="https://placekitten.com/170/170" alt="맛집이미지">
-          </div>
-          <div class='infowindow_content'>
-            <div class='infowindow_username'>${target.username}</div>
-            <div class='infowindow_text'>${target.text}</div>
-          </div>
-        </div>`
-  
-        let infowindow = {
-          content: content,
-        };
-  
-        markerList.push(marker);
-        infoWindowList.push(infowindow);
-        isOpenList.push('false');
-      }
-  
-      for (let i =0, ii=markerList.length;i<ii;i++){
-        naver.maps.Event.addListener(markerList[i],"click",getClickHandler(i)); //marker클릭했을때 이벤트
-        naver.maps.Event.addListener(map,"click",clickMap(i)); //marker클릭했을때 이벤트
-      };
-  
-    const infoWindowContainer = document.querySelector('#infowindow-container')
 
     function getClickHandler(i){
       return function(){
@@ -220,10 +183,15 @@ $.ajax({
     }
 
     function clickMap(i){
-      return function(){
+      return function () {
+        let marker=markerList[i];
         infoWindowContainer.innerHTML = '';
         isOpenList[i] = false;
+        var icon = {
+              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+            } 
+            marker.setIcon(icon);
       }
     }
+});
 
-  });
