@@ -32,7 +32,7 @@ $.ajax({
         
         let content=`<div class='infowindow_wrap' style='position:fixed; left:0px; bottom:0px;'>
           <div class='infowindow_image'>
-            <img src="https://placekitten.com/170/170" alt="맛집이미지">
+            <img src="${target.img}" alt="맛집이미지">
           </div>
           <div class='infowindow_content'>
             <div class='infowindow_username'>${target.username}</div>
