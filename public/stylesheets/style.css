@@ -229,6 +229,10 @@ body {
   gap: 8px;
   z-index: 1000;
 }
+
+.infowindow_image, .infowindow_image > img {
+  width:100%;
+}
 .infowindow_username {
   font-size: 16px;
   font-weight: bolder;
