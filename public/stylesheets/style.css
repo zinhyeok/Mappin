@@ -21,7 +21,7 @@ body {
   font-weight: bolder;
   font-size: 25px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   position: fixed;
   z-index: 1000;
 }
@@ -46,9 +46,9 @@ body {
   font-weight: bolder;
 }
 .marker {
-  background: #FFD875;
-  opacity: 0.8;
-  min-width: 35px;
+  /* background: #FFD875; */
+  /* opacity: 0.8; */
+  width: 35px;
   height: 35px;
   border-radius: 50%;
   z-index: 2
@@ -66,6 +66,7 @@ body {
       z-index: 1;
       bottom: 35px;
       left: -12px;
+      position: relative;
 }
 .marker-wrapper:after {
   z-index: 0;
@@ -80,6 +81,13 @@ body {
   border-bottom: 0;
   margin-left: -14px;
   margin-bottom: -10px;
+}
+.marker-emoji{
+      font-size: 1.2rem;
+      position: absolute;
+      z-index: 5;
+      left: 1.6rem;
+      bottom: 1.2rem;
 }
 .marker-info-wrapper{
   height: 45px;
@@ -151,12 +159,18 @@ body {
   position: absolute;
       top: 60px;
       left: 10px;
-      padding: 10px;
+      padding: 0.5rem;
   z-index: 10000;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  box-shadow: 0 0 6px 0 rgb(218 218 218);
+  border-radius: 20px;
   text-align: center;
+      display: flex;
+      align-items: center;
+}
+#search_button{
+  all: unset;
+  font-size: 1.2rem;
 }
 #search_input {
   border: none;
@@ -164,7 +178,26 @@ body {
 #search_input:focus {
   outline: none;
 }
-
+#emoji_floating_list{
+  display: flex;
+  background: white;
+  font-size: 1.4rem;
+  padding: 0.6rem;
+  border-radius: 30px;
+  box-shadow: 0 0 6px 0 rgb(218 218 218);
+}
+#emoji_floating_list span{
+  padding: 0 0.4rem;
+  cursor: pointer;
+}
+#bottom_floating_box{
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+}
 @-webkit-keyframes pulse {
   /* 시간대별로 애니메이션 어떻게 나갈지 명시 */
   0% {
@@ -223,23 +256,47 @@ body {
   position: fixed;
   bottom: 0px;
   left: 0px;
-  height: 170px;
   width: 100vw;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
   z-index: 1000;
 }
+.infowindow_content_wrap {
+  display: flex;
+}
 
+.infowindow_feedback{
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #616161;
+  padding: 0 1rem;
+}
+.infowindow_feedback span{
+  padding-right: 3%;
+}
+.emoji-list {
+  display: flex;
+  width: 5rem;
+  font-size: 1.4rem;
+  justify-content: space-between;
+}
+.emoji-list span{
+  cursor: pointer;
+}
 .infowindow_image{
   overflow: hidden;
 }
 
-.infowindow_image, .infowindow_image > img {
-  width:auto;
+.infowindow_image{
+      width: 10rem;
+      height: 10rem;
 }
 
 .infowindow_image > img {
   height: 100%;
+  width: 100%;
   display: block;
 }
 
@@ -252,7 +309,6 @@ body {
   padding: 10px 15px;
   display: flex;
   flex-direction: column;
-  width: 100%;
   gap: 6px;
 }
 

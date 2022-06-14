@@ -25,19 +25,29 @@ $.ajax({
           map:map,
           position: latlng,
           icon:{
-            content: "<div class='marker-wrapper'><div class='marker'></div></div>",
+            content: `<div class='marker-wrapper'><img class='marker' src=${target.markerImg}></img><span class="marker-emoji">❤️</span></div>`,
             anchor: new naver.maps.Point(12,12) //marker의 중심
           },
         });
         //map이라는 변수위에 마커가 표시, position은 마커가 표시될 위치,icon은 마커로 표시될 div
         
         let content=`<div class='infowindow_wrap' style='position:fixed; left:0px; bottom:0px;'>
-          <div class='infowindow_image'>
-            <img src="${target.img}" alt="맛집이미지">
+          <div class='infowindow_content_wrap'>
+            <div class='infowindow_image'>
+              <img src="${target.img}" alt="맛집이미지">
+            </div>
+            <div class='infowindow_content'>
+              <div class='infowindow_username'>${target.username}</div>
+              <div class='infowindow_text'>${target.text}</div>
+            </div>
+          </div>  
+          <div class='infowindow_feedback'>
+          <span>${target.title}, 어땠나요?</span>
+          <div class="emoji-list">
+          <span>❤️</span>
+          <span>👍</span>
+          <span>🤔</span>
           </div>
-          <div class='infowindow_content'>
-            <div class='infowindow_username'>${target.username}</div>
-            <div class='infowindow_text'>${target.text}</div>
           </div>
         </div>`
   
@@ -158,11 +168,12 @@ $.ajax({
 
     function getClickHandler(i){
       return function () {
+        let target=data[i]
         markerNumber=isOpenList.indexOf(true)
         if (markerNumber != -1) {
           let openedMarker = markerList[markerNumber]
           var icon = {
-              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+              content: `<div class='marker-wrapper'><img class='marker' src=${target.markerImg}></img><span class="marker-emoji">❤️</span></div>`
             } 
             openedMarker.setIcon(icon);
         }
@@ -173,7 +184,7 @@ $.ajax({
           infoWindowContainer.innerHTML = '';
           isOpenList[i] = false;
           var icon = {
-              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+              content: `<div class='marker-wrapper'><img class='marker' src=${target.markerImg}></img><span class="marker-emoji">❤️</span></div>`
           } 
 
             marker.setIcon(icon);
@@ -183,9 +194,9 @@ $.ajax({
             isOpenList[i] = false;
           }
           isOpenList[i] = true;
-           let target=data[i]
+          
             var icon = {
-              content: `<div class='marker-info-wrapper'><div class='marker'></div><div style='padding-left: 10px; width:max-content;'>${target.title}</div></div>`
+              content: `<div class='marker-info-wrapper'><img class='marker' src=${target.markerImg}></img><div style='padding-left: 10px; width:max-content;'>${target.title}</div></div>`
             } 
             marker.setIcon(icon);
         }
@@ -194,11 +205,12 @@ $.ajax({
 
     function clickMap(i){
       return function () {
-        let marker=markerList[i];
+        let marker = markerList[i];
+        let target=data[i]
         infoWindowContainer.innerHTML = '';
         isOpenList[i] = false;
         var icon = {
-              content: "<div class='marker-wrapper'><div class='marker'></div></div>"
+              content: `<div class='marker-wrapper'><img class='marker' src=${target.markerImg}></img><span class="marker-emoji">❤️</span></div>`
             } 
             marker.setIcon(icon);
       }
